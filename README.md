@@ -19,6 +19,12 @@ Old LG TVs ship a very old browser engine (Chromium 38 on webOS 3.x). Modern str
 - **Audio and subtitle language preference.** Sources with Turkish audio come first, and subtitles try Turkish, then English. Both are easy to change in the code.
 - **Remote control.** Works with both the arrow keys and the Magic Remote pointer.
 
+## Download
+
+**Latest release: [LiteStream 1.2.0](https://github.com/SinanKulen/webos-legacy-stremio/releases/tag/v1.2.0)** — direct download: [`litestream-1.2.0.ipk`](https://github.com/SinanKulen/webos-legacy-stremio/releases/download/v1.2.0/litestream-1.2.0.ipk)
+
+The release build contains no API keys. Enter your own TMDB and OMDb keys under **Ayarlar** (Settings) after installing.
+
 ## Requirements
 
 - An LG webOS TV with **Developer Mode** (free LG developer account).
@@ -29,8 +35,17 @@ Old LG TVs ship a very old browser engine (Chromium 38 on webOS 3.x). Modern str
 
 1. Install the **Developer Mode** app from the LG Content Store, sign in, and turn on *Dev Mode Status* and *Key Server*. Note the IP address and passphrase.
 2. Install [webOS Dev Manager](https://github.com/webosbrew/dev-manager-desktop) on your computer and add the TV using that IP and passphrase.
-3. Download the `.ipk` from [Releases](../../releases), or build it yourself (see below). In Dev Manager, open **Apps → Install** and pick the file.
+3. Download [`litestream-1.2.0.ipk`](https://github.com/SinanKulen/webos-legacy-stremio/releases/download/v1.2.0/litestream-1.2.0.ipk) from the [latest release](https://github.com/SinanKulen/webos-legacy-stremio/releases/latest), or build it yourself (see below). In Dev Manager, open **Apps → Install** and pick the file.
 4. Open **LiteStream** on the TV and sign in with your Stremio account. If you didn't build with keys, enter your TMDB and OMDb keys under **Ayarlar** (Settings).
+
+**Alternative: install from the command line** with the webOS CLI:
+
+```bash
+npm i -g @webos-tools/cli
+ares-setup-device                         # add the TV (IP, port 9922, passphrase)
+ares-install -d <tv-name> litestream-1.2.0.ipk
+ares-launch -d <tv-name> com.sinan.litestream
+```
 
 Developer Mode expires after a while, and sideloaded apps are removed when it does. Extend the session from Dev Manager now and then. On a rooted TV with Homebrew Channel this limit doesn't apply.
 
