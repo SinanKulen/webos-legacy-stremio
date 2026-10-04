@@ -1,0 +1,10 @@
+# Private API keys
+app/config.js
+# Build output
+dist/
+*.ipk
+# Test output
+tests/out/
+__pycache__/
+node_modules/
+.DS_Store

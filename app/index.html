@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>LiteStream</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <!-- Login -->
+  <section id="screen-login" class="screen">
+    <div class="login-box">
+      <h1>LiteStream</h1>
+      <p class="muted">Stremio hesabınla giriş yap. Eklentilerin otomatik gelir.</p>
+      <input id="login-email" class="focusable field" type="email" placeholder="E-posta">
+      <input id="login-pass" class="focusable field" type="password" placeholder="Şifre">
+      <div id="login-btn" class="focusable btn">Giriş yap</div>
+      <p id="login-msg" class="error"></p>
+    </div>
+  </section>
+
+  <!-- Top-level browse screens (nav bar is injected by app.js) -->
+  <section id="screen-home" class="screen"><div class="topbar" data-nav="home"></div><div id="home-rows" class="rows scroll-y"></div></section>
+  <section id="screen-movies" class="screen"><div class="topbar" data-nav="movies"></div><div id="movies-rows" class="rows scroll-y"></div></section>
+  <section id="screen-series" class="screen"><div class="topbar" data-nav="series"></div><div id="series-rows" class="rows scroll-y"></div></section>
+  <section id="screen-mylist" class="screen"><div class="topbar" data-nav="mylist"></div><div id="mylist-rows" class="rows scroll-y"></div></section>
+
+  <section id="screen-search" class="screen">
+    <div class="topbar" data-nav="search"></div>
+    <div class="searchbar">
+      <input id="search-input" class="focusable field inline" type="text" placeholder="Film, dizi adı (Türkçe veya orijinal)">
+      <div id="search-btn" class="focusable btn small">Ara</div>
+    </div>
+    <div id="search-rows" class="rows scroll-y below-search"></div>
+  </section>
+
+  <section id="screen-settings" class="screen">
+    <div class="topbar" data-nav="settings"></div>
+    <div class="settings">
+      <h2>TMDB API anahtarı</h2>
+      <p class="muted">Türkçe film/dizi bilgileri için kullanılır. Boş bırakırsan config.js içindeki anahtar kullanılır.</p>
+      <input id="set-tmdb" class="focusable field" type="text" placeholder="TMDB v3 API Key">
+      <div id="set-save" class="focusable btn">Kaydet</div>
+      <h2>OMDb API anahtarı</h2>
+      <p class="muted">IMDb, Rotten Tomatoes ve Metacritic puanları için. Boş bırakırsan config.js içindeki anahtar kullanılır.</p>
+      <input id="set-omdb" class="focusable field" type="text" placeholder="OMDb API Key">
+      <div id="set-omdb-save" class="focusable btn">Kaydet</div>
+      <h2>Hesap</h2>
+      <p id="set-account" class="muted"></p>
+      <div id="set-reload" class="focusable btn ghost">Eklentileri yenile</div>
+      <div id="set-logout" class="focusable btn ghost">Çıkış yap</div>
+      <p id="set-info" class="muted small-text"></p>
+    </div>
+  </section>
+
+  <!-- Detail (Netflix-like) -->
+  <section id="screen-detail" class="screen">
+    <div id="detail-scroll" class="detail-scroll scroll-y">
+      <div class="hero">
+        <div id="detail-bg" class="hero-bg"></div>
+        <div class="hero-shade"></div>
+        <div class="hero-content">
+          <img id="detail-logo" class="hero-logo" alt="">
+          <h1 id="detail-title"></h1>
+          <p id="detail-tagline" class="tagline"></p>
+          <p id="detail-meta" class="meta-line"></p>
+          <div id="detail-ratings" class="ratings"></div>
+          <p id="detail-desc"></p>
+          <p id="detail-crew" class="crew"></p>
+          <div id="detail-actions" class="actions"></div>
+        </div>
+      </div>
+      <div id="detail-series" class="section">
+        <div class="section-title">Bölümler</div>
+        <div id="detail-seasons" class="seasons scroll-x"></div>
+        <div id="detail-episodes" class="episodes scroll-y"></div>
+      </div>
+      <p id="detail-castnames" class="section muted"></p>
+      <div id="detail-cast" class="inline-rows"></div>
+      <div id="detail-similar" class="inline-rows"></div>
+      <div class="detail-pad"></div>
+    </div>
+  </section>
+
+  <!-- Person -->
+  <section id="screen-person" class="screen">
+    <div class="person-head">
+      <img id="person-photo" class="person-photo" alt="">
+      <div class="person-info">
+        <h1 id="person-name"></h1>
+        <p id="person-meta" class="muted"></p>
+        <p id="person-bio"></p>
+      </div>
+    </div>
+    <div id="person-rows" class="rows scroll-y person-rows"></div>
+  </section>
+
+  <!-- Streams -->
+  <section id="screen-streams" class="screen">
+    <div class="topbar">
+      <div id="streams-title" class="brand"></div>
+      <div id="streams-toggle" class="focusable btn small ghost">Uyumsuzları göster</div>
+    </div>
+    <div id="streams-list" class="list scroll-y"></div>
+  </section>
+
+  <!-- Player -->
+  <section id="screen-player" class="screen">
+    <video id="video" preload="auto"></video>
+    <div id="subtitle" class="subtitle"></div>
+    <div id="player-osd" class="osd">
+      <div id="osd-title" class="osd-title"></div>
+      <div class="osd-bar"><div id="osd-buffer" class="osd-buffer"></div><div id="osd-progress" class="osd-progress"></div><div id="osd-target" class="osd-target"></div></div>
+      <div class="osd-row">
+        <span id="osd-time">0:00 / 0:00</span>
+        <span id="osd-seek" class="osd-seek"></span>
+        <span id="osd-audio" class="muted"></span>
+        <span id="osd-sub" class="muted"></span>
+      </div>
+      <div class="osd-help muted">OK: Oynat/Duraklat · ◀ ▶: 10 sn · ▲ ▼: 1 dk · KIRMIZI: Ses dili · SARI: Altyazı · CH+/CH−: Altyazı gecikmesi · GERİ: Çık</div>
+    </div>
+    <div id="player-msg" class="player-msg"></div>
+  </section>
+
+  <div id="loader" class="loader">Yükleniyor…</div>
+  <div id="toast" class="toast"></div>
+  <pre id="debug" class="debug"></pre>
+</div>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
